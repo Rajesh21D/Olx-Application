@@ -3,7 +3,7 @@ package com.zensar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,12 +31,12 @@ public class MyController {
 		status.add(new AdvertiseStatus(2L, "CLOSED"));
 	}
 	
-	@GetMapping("/advertise/category")
+	@GetMapping(value="/advertise/category",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<AdvertiseCategory> getAllAdvertisementCategories() {
 		return categories;
 	}
 	
-	@GetMapping("/advertise/status")
+	@GetMapping(value="/advertise/status",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<AdvertiseStatus> getAllAdvertisementStatus(){
 		return status;
 	}
