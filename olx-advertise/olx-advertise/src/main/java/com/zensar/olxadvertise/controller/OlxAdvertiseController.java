@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,7 @@ public class OlxAdvertiseController {
 				"7/21/22", "7/21/22", "OPEN","Anand Kulkarni"));
 	}
 
-	@PostMapping("/advertise")
+	@PostMapping(value="/advertise",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Advertise> addAdvertise(@RequestBody Advertise advertise,
 			@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
@@ -51,7 +52,7 @@ public class OlxAdvertiseController {
 		return null;
 
 	}
-@GetMapping("/user/advertise/{postId}")
+@GetMapping(value="/user/advertise/{postId}",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 	if (username.equals("anand") && password.equals("anand123")) {
 		
@@ -66,7 +67,7 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 		
 	}
 
-	@PutMapping("/advertise/{id}")
+	@PutMapping(value="/advertise/{id}",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public Advertise updateAdvertise(@PathVariable long id, @RequestBody Advertise advertises,
 			@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
@@ -82,7 +83,7 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 
 	}
 	
-	@GetMapping("/user/advertise")
+	@GetMapping(value="/user/advertise",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<Advertise> getAllAdvertise(@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
 		return advertises;
@@ -106,7 +107,7 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 		return false;
 	}
 	
-	@GetMapping("/advertise/search/filtercriteria")
+	@GetMapping(value="/advertise/search/filtercriteria",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long filtercriteria, String fromDate) {
 		for(Advertise advertise:advertises) {
 			if(advertise.getId()==filtercriteria||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
@@ -118,13 +119,13 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 		return null;
 	}
 	
-	@GetMapping("/advertise/search")
+	@GetMapping(value="/advertise/search",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<Advertise> searchAdvertise() {
 		
 		return advertises;
 		
 	}
-	@GetMapping("/advertise/{postId}")
+	@GetMapping(value="/advertise/{postId}",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<AdvertiseDetails> advertiseDetails(@PathVariable("postId") long id,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
 			for(AdvertiseDetails advertise:advertiseDetails) {
