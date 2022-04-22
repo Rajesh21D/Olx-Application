@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class MyController {
 		
 	}
 	
-	@GetMapping("/user")
+	@GetMapping(value="/user",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<User> getAllUsers(@RequestHeader("userName") String username,@RequestHeader("password") String password) {
 		if(username.equals("anand")&&password.equals("anand123")) {
 		return users;
@@ -38,7 +39,7 @@ public class MyController {
 		
 	}
 	
-	@PostMapping("/user")
+	@PostMapping(value="/user",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<User> registerUser(@RequestBody User user) {
 		users.add(user);
 		
@@ -63,7 +64,7 @@ public class MyController {
 		return false;
 		
 	}
-	@PostMapping("/user/authenticate")
+	@PostMapping(value="/user/authenticate",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public String loginUser(@RequestBody User user ) {
 		
 		return user.getUserName()+"\n"+user.getPassword();
