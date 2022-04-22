@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zensar.entity.AdvertiseCategory;
@@ -13,6 +14,7 @@ import com.zensar.entity.AdvertiseStatus;
 
 
 @RestController
+@RequestMapping(value="/advertise",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 public class MyController {
 	
 	static List<AdvertiseCategory> categories= new ArrayList<AdvertiseCategory>();
@@ -31,12 +33,12 @@ public class MyController {
 		status.add(new AdvertiseStatus(2L, "CLOSED"));
 	}
 	
-	@GetMapping(value="/advertise/category",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping("/category")
 	public List<AdvertiseCategory> getAllAdvertisementCategories() {
 		return categories;
 	}
 	
-	@GetMapping(value="/advertise/status",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping("/status")
 	public List<AdvertiseStatus> getAllAdvertisementStatus(){
 		return status;
 	}
