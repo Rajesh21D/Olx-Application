@@ -3,6 +3,7 @@ package com.zensar.olxadvertise.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zensar.olxadvertise.entity.Advertise;
 import com.zensar.olxadvertise.entity.AdvertiseDetails;
+import com.zensar.service.OlxAdvertiseService;
 
 
 
@@ -25,119 +27,54 @@ import com.zensar.olxadvertise.entity.AdvertiseDetails;
 @RequestMapping(produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 public class OlxAdvertiseController {
 
-	static List<Advertise> advertises = new ArrayList<Advertise>();
-	static List<AdvertiseDetails> advertiseDetails=new ArrayList<AdvertiseDetails>();
+	@Autowired
+	private OlxAdvertiseService olxadvertiseService;
 
-	static {
-		advertises.add(new Advertise(1L, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand",
-				"7/21/22", "7/21/22", "OPEN"));
+	@PostMapping(value="/advertise",produces = {MediaType.APPLICATION_XML_VALUE ,MediaType.APPLICATION_JSON_VALUE},consumes ={MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<Advertise> addAdvertise(@RequestBody Advertise ads,
+	@RequestHeader("userName") String username, @RequestHeader("password") String password) {
+	Advertise advertise =olxadvertiseService.addAdvertise(ads, username, password);
+	return new ResponseEntity<Advertise>(advertise,HttpStatus.CREATED);
 	}
 	
-	static {
-		advertiseDetails.add(new AdvertiseDetails(1L, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand",
-				"7/21/22", "7/21/22", "OPEN","Anand Kulkarni"));
-	}
-
-	@PostMapping("/advertise")
-	public ResponseEntity<Advertise> addAdvertise(@RequestBody Advertise advertise,
-			@RequestHeader("userName") String username, @RequestHeader("password") String password) {
-		if (username.equals("anand") && password.equals("anand123")) {
-			advertises.add(advertise);
-			advertise.setCategory("Electronic goods");
-			advertise.setUserName("anand");
-			advertise.setCreatedDate("7/21/22");
-			advertise.setModifiedDate("7/21/22");
-			advertise.setStatus("OPEN");
-			return new ResponseEntity<Advertise>(advertise, HttpStatus.CREATED);
-		}
-
-		return null;
-
-	}
 @GetMapping("/user/advertise/{postId}")
 public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
-	if (username.equals("anand") && password.equals("anand123")) {
-		
-		for(Advertise advertise:advertises) {
-			if(advertise.getId()==postId) {
-				return advertise;
-			}
-			
-		}
-	}
-		return null;
+	return olxadvertiseService.getAdvertise(postId, username, password);
 		
 	}
 
 	@PutMapping("/advertise/{id}")
 	public Advertise updateAdvertise(@PathVariable long id, @RequestBody Advertise advertises,
 			@RequestHeader("userName") String username, @RequestHeader("password") String password) {
-		if (username.equals("anand") && password.equals("anand123")) {
-			Advertise advertise = getAdvertise(id, "anand", "anand123");
-			advertise.setTitle(advertises.getTitle());
-			advertise.setPrice(advertises.getPrice());
-			advertise.setDescription(advertises.getDescription());
-			
-			return advertise;
-		}
-
-		return null;
+		return olxadvertiseService.updateAdvertise(id, advertises, username, password);
 
 	}
 	
 	@GetMapping("/user/advertise")
 	public List<Advertise> getAllAdvertise(@RequestHeader("userName") String username, @RequestHeader("password") String password) {
-		if (username.equals("anand") && password.equals("anand123")) {
-		return advertises;
-		}
-		
-		return null;
+		return olxadvertiseService.getAllAdvertise(username, password);
 	}
 	
 	@DeleteMapping("/user/advertise/{postId}")
 	public boolean deleteAdvertise(@PathVariable("postId") long id,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
-		if (username.equals("anand") && password.equals("anand123")) {
-		for(Advertise advertise:advertises) {
-			if(advertise.getId()==id) {
-				advertises.remove(advertise);
-				
-				return true;
-			}
-		}
-			
-		}
-		return false;
+               return olxadvertiseService.deleteAdvertise(id, username, password);
 	}
 	
-	@GetMapping("/advertise/search/filtercriteria")
-	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long filtercriteria, String fromDate) {
-		for(Advertise advertise:advertises) {
-			if(advertise.getId()==filtercriteria||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
-				return advertise;
-			}
-
-			
-		}
-		return null;
+	@GetMapping(value="/advertise/search/{filtercriteria}")
+	public Advertise searchAdvertisementsByCriteria(@PathVariable long filtercriteria, String category, String toDate, String fromDate) {
+	return olxadvertiseService.searchAdvertisementsByCriteria(category, toDate, filtercriteria, fromDate);
 	}
 	
 	@GetMapping("/advertise/search")
 	public List<Advertise> searchAdvertise() {
 		
-		return advertises;
+		return olxadvertiseService.searchAdvertise();
 		
 	}
 	@GetMapping("/advertise/{postId}")
 	public List<AdvertiseDetails> advertiseDetails(@PathVariable("postId") long id,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
-		if (username.equals("anand") && password.equals("anand123")) {
-			for(AdvertiseDetails advertise:advertiseDetails) {
-				if(advertise.getId()==id) {
-			
-					return advertiseDetails;
-				}
-			}
-		}
-		return null;
+		
+		return olxadvertiseService.advertiseDetails(id, username, password);
 		
 	}
 
