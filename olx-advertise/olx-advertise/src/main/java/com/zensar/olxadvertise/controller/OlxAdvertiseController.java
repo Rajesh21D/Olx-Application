@@ -106,10 +106,10 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 		return false;
 	}
 	
-	@GetMapping("/advertise/search/{index}")
-	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long index, String fromDate) {
+	@GetMapping("/advertise/search/filtercriteria")
+	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long filtercriteria, String fromDate) {
 		for(Advertise advertise:advertises) {
-			if(advertise.getId()==index||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
+			if(advertise.getId()==filtercriteria||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
 				return advertise;
 			}
 
