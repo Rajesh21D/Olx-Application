@@ -36,16 +36,16 @@ public class OlxAdvertiseController {
 	}
 
 	@PostMapping("/advertise")
-	public ResponseEntity<Advertise> addAdvertise(@RequestBody Advertise ads,
+	public ResponseEntity<Advertise> addAdvertise(@RequestBody Advertise advertise,
 			@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
-			advertises.add(ads);
-			ads.setCategory("Electronic goods");
-			ads.setUserName("anand");
-			ads.setCreatedDate("4/21/22");
-			ads.setModifiedDate("4/21/22");
-			ads.setStatus("OPEN");
-			return new ResponseEntity<Advertise>(ads, HttpStatus.CREATED);
+			advertises.add(advertise);
+			advertise.setCategory("Electronic goods");
+			advertise.setUserName("anand");
+			advertise.setCreatedDate("4/21/22");
+			advertise.setModifiedDate("4/21/22");
+			advertise.setStatus("OPEN");
+			return new ResponseEntity<Advertise>(advertise, HttpStatus.CREATED);
 		}
 
 		return null;
@@ -55,9 +55,9 @@ public class OlxAdvertiseController {
 public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 	if (username.equals("anand") && password.equals("anand123")) {
 		
-		for(Advertise ads:advertises) {
-			if(ads.getId()==postId) {
-				return ads;
+		for(Advertise advertise:advertises) {
+			if(advertise.getId()==postId) {
+				return advertise;
 			}
 			
 		}
@@ -67,15 +67,15 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 	}
 
 	@PutMapping("/advertise/{id}")
-	public Advertise updateAdvertise(@PathVariable long id, @RequestBody Advertise advertise,
+	public Advertise updateAdvertise(@PathVariable long id, @RequestBody Advertise advertises,
 			@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
-			Advertise ads = getAdvertise(id, "anand", "anand123");
-			ads.setTitle(advertise.getTitle());
-			ads.setPrice(advertise.getPrice());
-			ads.setDescription(advertise.getDescription());
+			Advertise advertise = getAdvertise(id, "anand", "anand123");
+			advertise.setTitle(advertises.getTitle());
+			advertise.setPrice(advertises.getPrice());
+			advertise.setDescription(advertises.getDescription());
 			
-			return ads;
+			return advertise;
 		}
 
 		return null;
@@ -94,9 +94,9 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 	@DeleteMapping("/user/advertise/{postId}")
 	public boolean deleteAdvertise(@PathVariable("postId") long id,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
-		for(Advertise ads:advertises) {
-			if(ads.getId()==id) {
-				advertises.remove(ads);
+		for(Advertise advertise:advertises) {
+			if(advertise.getId()==id) {
+				advertises.remove(advertise);
 				
 				return true;
 			}
@@ -108,9 +108,9 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 	
 	@GetMapping("/advertise/search/{index}")
 	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long index, String fromDate) {
-		for(Advertise ads:advertises) {
-			if(ads.getId()==index||ads.getCategory().equals(category)||ads.getCreatedDate().equals(fromDate)||ads.getModifiedDate().equals(toDate)) {
-				return ads;
+		for(Advertise advertise:advertises) {
+			if(advertise.getId()==index||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
+				return advertise;
 			}
 
 			
@@ -127,8 +127,8 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 	@GetMapping("/advertise/{postId}")
 	public List<AdvertiseDetails> advertiseDetails(@PathVariable("postId") long id,@RequestHeader("userName") String username, @RequestHeader("password") String password) {
 		if (username.equals("anand") && password.equals("anand123")) {
-			for(AdvertiseDetails ads:advertiseDetails) {
-				if(ads.getId()==id) {
+			for(AdvertiseDetails advertise:advertiseDetails) {
+				if(advertise.getId()==id) {
 			
 					return advertiseDetails;
 				}
