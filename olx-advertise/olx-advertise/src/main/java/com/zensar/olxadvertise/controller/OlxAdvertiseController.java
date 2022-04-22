@@ -27,12 +27,12 @@ public class OlxAdvertiseController {
 
 	static {
 		advertises.add(new Advertise(1L, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand",
-				"4/21/22", "4/21/22", "OPEN"));
+				"7/21/22", "7/21/22", "OPEN"));
 	}
 	
 	static {
 		advertiseDetails.add(new AdvertiseDetails(1L, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand",
-				"4/21/22", "4/21/22", "OPEN","Anand Kulkarni"));
+				"7/21/22", "7/21/22", "OPEN","Anand Kulkarni"));
 	}
 
 	@PostMapping("/advertise")
@@ -42,8 +42,8 @@ public class OlxAdvertiseController {
 			advertises.add(advertise);
 			advertise.setCategory("Electronic goods");
 			advertise.setUserName("anand");
-			advertise.setCreatedDate("4/21/22");
-			advertise.setModifiedDate("4/21/22");
+			advertise.setCreatedDate("7/21/22");
+			advertise.setModifiedDate("7/21/22");
 			advertise.setStatus("OPEN");
 			return new ResponseEntity<Advertise>(advertise, HttpStatus.CREATED);
 		}
@@ -106,10 +106,10 @@ public Advertise getAdvertise(@PathVariable long postId,@RequestHeader("userName
 		return false;
 	}
 	
-	@GetMapping("/advertise/search/{index}")
-	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long index, String fromDate) {
+	@GetMapping("/advertise/search/filtercriteria")
+	public Advertise searchAdvertisementsByCriteria(@PathVariable String category, String toDate,Long filtercriteria, String fromDate) {
 		for(Advertise advertise:advertises) {
-			if(advertise.getId()==index||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
+			if(advertise.getId()==filtercriteria||advertise.getCategory().equals(category)||advertise.getCreatedDate().equals(fromDate)||advertise.getModifiedDate().equals(toDate)) {
 				return advertise;
 			}
 
