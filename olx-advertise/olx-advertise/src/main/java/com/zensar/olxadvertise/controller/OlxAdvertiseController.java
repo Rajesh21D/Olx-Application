@@ -27,12 +27,12 @@ public class OlxAdvertiseController {
 
 	static {
 		advertises.add(new Advertise(1L, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand",
-				"4/21/22", "4/21/22", "OPEN"));
+				"7/21/22", "7/21/22", "OPEN"));
 	}
 	
 	static {
 		advertiseDetails.add(new AdvertiseDetails(1L, "laptop sale", 54000, "Electronic goods", "intel core 3 Sony Vaio", "anand",
-				"4/21/22", "4/21/22", "OPEN","Anand Kulkarni"));
+				"7/21/22", "7/21/22", "OPEN","Anand Kulkarni"));
 	}
 
 	@PostMapping("/advertise")
@@ -42,8 +42,8 @@ public class OlxAdvertiseController {
 			advertises.add(advertise);
 			advertise.setCategory("Electronic goods");
 			advertise.setUserName("anand");
-			advertise.setCreatedDate("4/21/22");
-			advertise.setModifiedDate("4/21/22");
+			advertise.setCreatedDate("7/21/22");
+			advertise.setModifiedDate("7/21/22");
 			advertise.setStatus("OPEN");
 			return new ResponseEntity<Advertise>(advertise, HttpStatus.CREATED);
 		}
