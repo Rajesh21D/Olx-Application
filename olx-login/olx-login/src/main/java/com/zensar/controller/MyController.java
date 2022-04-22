@@ -3,6 +3,7 @@ package com.zensar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zensar.entity.User;
+import com.zensar.service.OlxLoginService;
 
 
 
@@ -24,52 +26,30 @@ import com.zensar.entity.User;
 public class MyController {
 	
 	
-	static List<User> users=new ArrayList<User>();
-	
-	static {
-		users.add(new User(1L, "Anand", "Kulkarni", "anand", "anand123", "anand@gmail.com", 12345));
-		
-	}
+	@Autowired
+	private OlxLoginService olxloginService;
 	
 	@GetMapping()
 	public List<User> getAllUsers(@RequestHeader("userName") String username,@RequestHeader("password") String password) {
-		if(username.equals("anand")&&password.equals("anand123")) {
-		return users;
-		}
 		
-		return  null;
-		
+	return olxloginService.getAllUsers(username, password);	
 	}
 	
 	@PostMapping()
-	public ResponseEntity<User> registerUser(@RequestBody User user) {
-		users.add(user);
+	public User registerUser(@RequestBody User user) {
 		
-		return new ResponseEntity<User>(user,HttpStatus.CREATED);
+		return olxloginService.registerUser(user);
 	}
 	
 	@DeleteMapping("/logout/{userId}")
 	public boolean logoutUser(@PathVariable("userId") long id1,@RequestHeader("userName") String username,@RequestHeader("password") String password) {
-		
-		if(username.equals("anand")&&password.equals("anand123")) {
-			for(User user:users) {
-				if(user.getId()==id1) {
-					users.remove(user);
-					
-					
-					return true;
-				}
-				
-			}
-			
-		}
-		return false;
+		return olxloginService.logoutUser(id1, username, password);
 		
 	}
 	@PostMapping("/authenticate")
 	public String loginUser(@RequestBody User user ) {
 		
-		return user.getUserName()+"\n"+user.getPassword();
+		return olxloginService.loginUser(user);
 		
 	}
 	
