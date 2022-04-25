@@ -22,31 +22,31 @@ import com.zensar.service.OlxLoginService;
 
 
 @RestController
-@RequestMapping(value="/user",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value="/user")
 public class MyController {
 	
 	
 	@Autowired
 	private OlxLoginService olxloginService;
 	
-	@GetMapping()
+	@GetMapping(produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<User> getAllUsers(@RequestHeader("userName") String username,@RequestHeader("password") String password) {
 		
 	return olxloginService.getAllUsers(username, password);	
 	}
 	
-	@PostMapping()
+	@PostMapping(produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public User registerUser(@RequestBody User user) {
 		
 		return olxloginService.registerUser(user);
 	}
 	
-	@DeleteMapping("/logout/{userId}")
+	@DeleteMapping(value="/logout/{userId}",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public boolean logoutUser(@PathVariable("userId") long id1,@RequestHeader("userName") String username,@RequestHeader("password") String password) {
 		return olxloginService.logoutUser(id1, username, password);
 		
 	}
-	@PostMapping("/authenticate")
+	@PostMapping(value="/authenticate",produces= {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}, consumes= { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public String loginUser(@RequestBody User user ) {
 		
 		return olxloginService.loginUser(user);
