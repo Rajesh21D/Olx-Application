@@ -3,14 +3,19 @@ package com.zensar.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.zensar.olxadvertise.entity.Advertise;
 import com.zensar.olxadvertise.entity.AdvertiseDetails;
+import com.zensar.olxadvertise.repository.OlxAdvertiseRepository;
 @Service
 public class OlxAdvertiseServiceImpl implements OlxAdvertiseService {
+	
+	@Autowired
+    private OlxAdvertiseRepository olxadvertiseRepository;
      
 	static List<Advertise> advertises = new ArrayList<Advertise>();
 	static List<AdvertiseDetails> advertiseDetails=new ArrayList<AdvertiseDetails>();
